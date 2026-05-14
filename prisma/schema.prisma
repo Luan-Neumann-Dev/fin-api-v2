@@ -1,0 +1,201 @@
+// This is your Prisma schema file,
+// learn more about it in the docs: https://pris.ly/d/prisma-schema
+
+// Get a free hosted Postgres database in seconds: `npx create-db`
+
+generator client {
+  provider     = "prisma-client"
+  output       = "../src/generated/prisma"
+  moduleFormat = "cjs"
+}
+
+datasource db {
+  provider = "postgresql"
+}
+
+model User {
+  id           String   @id @default(uuid())
+  email        String   @unique
+  displayName  String?  @map("display_name")
+  passwordHash String   @map("password_hash")
+  createdAt    DateTime @default(now()) @map("created_at")
+  updatedAt    DateTime @updatedAt @map("updated_at")
+
+  profile      Profile?
+  categories   Category[]
+  transactions Transaction[]
+  incomes      Income[]
+  creditCards  CreditCard[]
+  piggyBanks   PiggyBank[]
+  investments  Investment[]
+
+  @@map("users")
+}
+
+model Profile {
+  id        String   @id @default(uuid())
+  userId    String   @unique @map("user_id")
+  currency  String   @default("BRL")
+  theme     String   @default("dark")
+  createdAt DateTime @default(now()) @map("created_at")
+  updatedAt DateTime @updatedAt @map("updated_at")
+
+  user User @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  @@map("profiles")
+}
+
+model Category {
+  id        String   @id @default(uuid())
+  userId    String   @map("user_id")
+  name      String
+  color     String   @default("#6366f1")
+  createdAt DateTime @default(now()) @map("created_at")
+
+  user         User          @relation(fields: [userId], references: [id], onDelete: Cascade)
+  transactions Transaction[]
+
+  @@unique([userId, name])
+  @@map("categories")
+}
+
+enum ExpenseType {
+  fixed
+  variable
+  installment
+}
+
+enum ExpenseStatus {
+  paid
+  pending
+}
+
+model Transaction {
+  id                String        @id @default(uuid())
+  userId            String        @map("user_id")
+  description       String
+  amount            Decimal       @db.Decimal(12, 2)
+  date              DateTime      @db.Date
+  categoryId        String?       @map("category_id")
+  type              ExpenseType   @default(variable)
+  status            ExpenseStatus @default(pending)
+  installmentInfo   String?       @map("installment_info")
+  totalInstallments Int?          @map("total_installments")
+  installmentNumber Int?          @map("installment_number")
+  createdAt         DateTime      @default(now()) @map("created_at")
+  updatedAt         DateTime      @updatedAt @map("updated_at")
+
+  user     User      @relation(fields: [userId], references: [id], onDelete: Cascade)
+  category Category? @relation(fields: [categoryId], references: [id], onDelete: SetNull)
+
+  @@index([userId, date])
+  @@map("transactions")
+}
+
+enum IncomeType {
+  fixed
+  variable
+}
+
+model Income {
+  id        String     @id @default(uuid())
+  userId    String     @map("user_id")
+  name      String
+  amount    Decimal    @db.Decimal(12, 2)
+  date      DateTime   @db.Date
+  type      IncomeType @default(fixed)
+  createdAt DateTime   @default(now()) @map("created_at")
+  updatedAt DateTime   @updatedAt @map("updated_at")
+
+  user User @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  @@index([userId, date])
+  @@map("incomes")
+}
+
+model CreditCard {
+  id        String   @id @default(uuid())
+  userId    String   @map("user_id")
+  name      String
+  color     String   @default("#7c3aed")
+  createdAt DateTime @default(now()) @map("created_at")
+  updatedAt DateTime @updatedAt @map("updated_at")
+
+  user     User      @relation(fields: [userId], references: [id], onDelete: Cascade)
+  invoices Invoice[]
+
+  @@map("credit_cards")
+}
+
+enum InvoiceStatus {
+  open
+  closed
+  overdue
+}
+
+model Invoice {
+  id           String        @id @default(uuid())
+  creditCardId String        @map("credit_card_id")
+  totalAmount  Decimal       @default(0) @map("total_amount") @db.Decimal(12, 2)
+  dueDate      DateTime      @map("due_date") @db.Date
+  closingDate  DateTime?     @map("closing_date") @db.Date
+  status       InvoiceStatus @default(open)
+  createdAt    DateTime      @default(now()) @map("created_at")
+  updatedAt    DateTime      @updatedAt @map("updated_at")
+
+  creditCard CreditCard        @relation(fields: [creditCardId], references: [id], onDelete: Cascade)
+  purchases  InvoicePurchase[]
+
+  @@map("invoices")
+}
+
+model InvoicePurchase {
+  id          String   @id @default(uuid())
+  invoiceId   String   @map("invoice_id")
+  description String
+  amount      Decimal  @db.Decimal(12, 2)
+  date        DateTime @db.Date
+  category    String
+  createdAt   DateTime @default(now()) @map("created_at")
+
+  invoice Invoice @relation(fields: [invoiceId], references: [id], onDelete: Cascade)
+
+  @@map("invoice_purchases")
+}
+
+model PiggyBank {
+  id            String   @id @default(uuid())
+  userId        String   @map("user_id")
+  name          String
+  targetAmount  Decimal  @map("target_amount") @db.Decimal(12, 2)
+  currentAmount Decimal  @default(0) @map("current_amount") @db.Decimal(12, 2)
+  icon          String   @default("piggy")
+  createdAt     DateTime @default(now()) @map("created_at")
+  updatedAt     DateTime @updatedAt @map("updated_at")
+
+  user User @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  @@map("piggy_banks")
+}
+
+enum InvestmentType {
+  stock
+  fixed_income @map("fixed-income")
+  crypto
+  fund
+}
+
+model Investment {
+  id             String         @id @default(uuid())
+  userId         String         @map("user_id")
+  name           String
+  type           InvestmentType
+  investedAmount Decimal        @map("invested_amount") @db.Decimal(12, 2)
+  currentAmount  Decimal        @map("current_amount") @db.Decimal(12, 2)
+  createdAt      DateTime       @default(now()) @map("created_at")
+  updatedAt      DateTime       @updatedAt @map("updated_at")
+
+  user User @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  @@map("investments")
+}
