@@ -13,6 +13,7 @@ import { PiggyBanksModule } from './modules/piggy-banks/piggy-banks.module';
 import { InvestmentsModule } from './modules/investments/investments.module';
 import { CreditCardsModule } from './modules/credit-cards/credit-cards.module';
 import { InvoicesModule } from './modules/invoices/invoices.module';
+import { DashboardModule } from './modules/dashboard/dashboard.module';
 
 @Module({
   imports: [
@@ -28,6 +29,7 @@ import { InvoicesModule } from './modules/invoices/invoices.module';
     InvestmentsModule,
     CreditCardsModule,
     InvoicesModule,
+    DashboardModule,
   ],
   providers: [
     {
