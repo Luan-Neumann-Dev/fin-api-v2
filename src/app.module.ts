@@ -14,6 +14,7 @@ import { InvestmentsModule } from './modules/investments/investments.module';
 import { CreditCardsModule } from './modules/credit-cards/credit-cards.module';
 import { InvoicesModule } from './modules/invoices/invoices.module';
 import { DashboardModule } from './modules/dashboard/dashboard.module';
+import { ReportsModule } from './modules/reports/reports.module';
 
 @Module({
   imports: [
@@ -30,6 +31,7 @@ import { DashboardModule } from './modules/dashboard/dashboard.module';
     CreditCardsModule,
     InvoicesModule,
     DashboardModule,
+    ReportsModule,
   ],
   providers: [
     {
