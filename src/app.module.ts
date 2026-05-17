@@ -12,6 +12,7 @@ import { IncomesModule } from './modules/incomes/incomes.module';
 import { PiggyBanksModule } from './modules/piggy-banks/piggy-banks.module';
 import { InvestmentsModule } from './modules/investments/investments.module';
 import { CreditCardsModule } from './modules/credit-cards/credit-cards.module';
+import { InvoicesModule } from './modules/invoices/invoices.module';
 
 @Module({
   imports: [
@@ -26,6 +27,7 @@ import { CreditCardsModule } from './modules/credit-cards/credit-cards.module';
     PiggyBanksModule,
     InvestmentsModule,
     CreditCardsModule,
+    InvoicesModule,
   ],
   providers: [
     {
