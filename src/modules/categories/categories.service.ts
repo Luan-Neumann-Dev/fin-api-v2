@@ -17,7 +17,7 @@ const categorySelect = {
 };
 
 @Injectable()
-export class CategoryService {
+export class CategoriesService {
   constructor(private readonly prisma: PrismaService) {}
 
   async findAll(userId: string) {

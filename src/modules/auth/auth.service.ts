@@ -5,17 +5,17 @@ import {
 } from '@nestjs/common';
 import { ConfigService } from '@nestjs/config';
 import { JwtService, JwtSignOptions } from '@nestjs/jwt';
-import { PrismaService } from 'src/prisma/prisma.service';
-import { RegisterDto } from './dto/register.dto';
 import * as bcrypt from 'bcrypt';
 import { ApiResponse } from 'src/common/response/api-response';
+import { PrismaService } from 'src/prisma/prisma.service';
 import { LoginDto } from './dto/login.dto';
+import { RegisterDto } from './dto/register.dto';
 
 const DEFAULT_CATEGORIES = [
   { name: 'Moradia', color: '#22c55e' },
-  { name: 'Alimentação', color: '#f97316' },
+  { name: 'Alimentacao', color: '#f97316' },
   { name: 'Transporte', color: '#06b6d4' },
-  { name: 'Saúde', color: '#ef4444' },
+  { name: 'Saude', color: '#ef4444' },
   { name: 'Lazer', color: '#8b5cf6' },
   { name: 'Compras', color: '#ec4899' },
   { name: 'Outros', color: '#64748b' },
@@ -37,13 +37,13 @@ export class AuthService {
     });
 
     if (existingUser) {
-      throw new ConflictException('Email já cadastrado');
+      throw new ConflictException('Email already registered');
     }
 
     const passwordHash = await bcrypt.hash(password, 12);
 
-    const user = await this.prisma.$transaction(async (tx) => {
-      return await tx.user.create({
+    const user = await this.prisma.$transaction((tx) =>
+      tx.user.create({
         data: {
           email,
           passwordHash,
@@ -55,8 +55,8 @@ export class AuthService {
             create: DEFAULT_CATEGORIES,
           },
         },
-      });
-    });
+      }),
+    );
 
     return ApiResponse.created(
       {

@@ -6,7 +6,6 @@ import { UpdateProfileDto } from './dto/update-profile.dto';
 const profileSelect = {
   id: true,
   userId: true,
-  avatarUrl: true,
   currency: true,
   theme: true,
   createdAt: true,
