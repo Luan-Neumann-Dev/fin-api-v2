@@ -7,6 +7,7 @@ import { JwtAuthGuard } from './common/guards/jwt-auth.guard';
 import { UsersModule } from './modules/users/users.module';
 import { ProfileModule } from './modules/profile/profile.module';
 import { CategoryModule } from './modules/category/category.module';
+import { TransactionsModule } from './modules/transactions/transactions.module';
 
 @Module({
   imports: [
@@ -16,6 +17,7 @@ import { CategoryModule } from './modules/category/category.module';
     UsersModule,
     ProfileModule,
     CategoryModule,
+    TransactionsModule,
   ],
   providers: [
     {
