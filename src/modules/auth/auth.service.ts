@@ -88,20 +88,7 @@ export class AuthService {
       'Login successful',
     )
   }
-
-  async me(userId: string) {
-    const user = await this.prisma.user.findUnique({
-      where: { id: userId},
-      include: { profile: true},
-    });
-
-    if (!user) {
-      throw new UnauthorizedException('User not found');
-    }
-
-    return ApiResponse.ok(this.sanitizeUser(user), 'User retrieved');
-  }
-
+  
   logout() {
     return ApiResponse.ok(null, 'Logout successful');
   }
