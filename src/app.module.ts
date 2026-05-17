@@ -10,6 +10,7 @@ import { CategoryModule } from './modules/category/category.module';
 import { TransactionsModule } from './modules/transactions/transactions.module';
 import { IncomesModule } from './modules/incomes/incomes.module';
 import { PiggyBanksModule } from './modules/piggy-banks/piggy-banks.module';
+import { InvestmentsModule } from './modules/investments/investments.module';
 
 @Module({
   imports: [
@@ -22,6 +23,7 @@ import { PiggyBanksModule } from './modules/piggy-banks/piggy-banks.module';
     TransactionsModule,
     IncomesModule,
     PiggyBanksModule,
+    InvestmentsModule,
   ],
   providers: [
     {
