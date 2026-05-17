@@ -8,6 +8,7 @@ import { UsersModule } from './modules/users/users.module';
 import { ProfileModule } from './modules/profile/profile.module';
 import { CategoryModule } from './modules/category/category.module';
 import { TransactionsModule } from './modules/transactions/transactions.module';
+import { IncomesModule } from './modules/incomes/incomes.module';
 
 @Module({
   imports: [
@@ -18,12 +19,13 @@ import { TransactionsModule } from './modules/transactions/transactions.module';
     ProfileModule,
     CategoryModule,
     TransactionsModule,
+    IncomesModule,
   ],
   providers: [
     {
       provide: APP_GUARD,
       useClass: JwtAuthGuard,
-    }
+    },
   ],
 })
 export class AppModule {}

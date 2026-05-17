@@ -1,10 +1,10 @@
-import { IsIn, IsOptional, IsString } from "class-validator";
+import { IsIn, IsOptional, IsString } from 'class-validator';
 
 export class UpdateProfileDto {
   @IsOptional()
   @IsString()
   @IsIn(['BRL', 'USD', 'EUR'])
-  currency?: string
+  currency?: string;
 
   @IsOptional()
   @IsString()

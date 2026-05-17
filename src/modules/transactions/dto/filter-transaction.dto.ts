@@ -1,6 +1,6 @@
-import { Type } from "class-transformer";
-import { IsEnum, IsInt, IsOptional, IsUUID, Max, Min } from "class-validator";
-import { ExpenseStatus, ExpenseType } from "src/generated/prisma/enums";
+import { Type } from 'class-transformer';
+import { IsEnum, IsInt, IsOptional, IsUUID, Max, Min } from 'class-validator';
+import { ExpenseStatus, ExpenseType } from 'src/generated/prisma/enums';
 
 export class FilterTransactionDto {
   @IsOptional()
@@ -25,5 +25,5 @@ export class FilterTransactionDto {
 
   @IsOptional()
   @IsUUID()
-  categoryId?: string
+  categoryId?: string;
 }

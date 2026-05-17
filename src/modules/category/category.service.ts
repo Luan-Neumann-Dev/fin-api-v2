@@ -1,4 +1,8 @@
-import { ConflictException, Injectable, NotFoundException } from '@nestjs/common';
+import {
+  ConflictException,
+  Injectable,
+  NotFoundException,
+} from '@nestjs/common';
 import { CreateCategoryDto } from './dto/create-category.dto';
 import { UpdateCategoryDto } from './dto/update-category.dto';
 import { PrismaService } from 'src/prisma/prisma.service';
@@ -10,35 +14,35 @@ const categorySelect = {
   name: true,
   color: true,
   createdAt: true,
-}
+};
 
 @Injectable()
 export class CategoryService {
   constructor(private readonly prisma: PrismaService) {}
-  
+
   async findAll(userId: string) {
     const categories = await this.prisma.category.findMany({
       where: { userId },
       select: categorySelect,
-      orderBy: { name: 'asc' }
-    })
+      orderBy: { name: 'asc' },
+    });
 
     return ApiResponse.ok(categories, 'Categories retrieved', {
-      total: categories.length
+      total: categories.length,
     });
   }
 
   async create(userId: string, dto: CreateCategoryDto) {
-    const {name, color} = dto;
+    const { name, color } = dto;
 
     const existingCategory = await this.prisma.category.findUnique({
       where: {
         userId_name: {
           userId,
-          name
+          name,
         },
       },
-      select: { id: true }
+      select: { id: true },
     });
 
     if (existingCategory) {
@@ -49,33 +53,32 @@ export class CategoryService {
       data: {
         userId,
         name,
-        color
+        color,
       },
-      select: categorySelect
+      select: categorySelect,
     });
 
     return ApiResponse.created(category, 'Category created');
   }
 
-  
   async update(userId: string, id: string, dto: UpdateCategoryDto) {
     await this.ensureCategoryExists(userId, id);
 
-    const {name, color} = dto;
+    const { name, color } = dto;
 
     if (name) {
       const categoryWithSameName = await this.prisma.category.findUnique({
         where: {
           userId_name: {
             userId,
-            name
+            name,
           },
         },
-        select: { id: true }
+        select: { id: true },
       });
 
       if (categoryWithSameName && categoryWithSameName.id !== id) {
-        throw new ConflictException('Category already exists')
+        throw new ConflictException('Category already exists');
       }
     }
 
@@ -83,9 +86,9 @@ export class CategoryService {
       where: { id },
       data: {
         name,
-        color
+        color,
       },
-      select: categorySelect
+      select: categorySelect,
     });
 
     return ApiResponse.ok(category, 'Category updated');
@@ -96,7 +99,7 @@ export class CategoryService {
 
     await this.prisma.category.delete({
       where: { id },
-    })
+    });
 
     return ApiResponse.noContent('Category deleted');
   }

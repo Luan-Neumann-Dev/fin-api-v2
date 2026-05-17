@@ -1,9 +1,17 @@
-import { BadRequestException, Injectable, NotFoundException } from '@nestjs/common';
+import {
+  BadRequestException,
+  Injectable,
+  NotFoundException,
+} from '@nestjs/common';
 import { CreateTransactionDto } from './dto/create-transaction.dto';
 import { UpdateTransactionDto } from './dto/update-transaction.dto';
 import { PrismaService } from 'src/prisma/prisma.service';
 import { FilterTransactionDto } from './dto/filter-transaction.dto';
-import { ExpenseStatus, ExpenseType, Prisma } from 'src/generated/prisma/client';
+import {
+  ExpenseStatus,
+  ExpenseType,
+  Prisma,
+} from 'src/generated/prisma/client';
 import { ApiResponse } from 'src/common/response/api-response';
 
 const transactionSelect = {
@@ -49,8 +57,8 @@ export class TransactionsService {
     });
 
     return ApiResponse.ok(transactions, 'Transactions retrieved', {
-      total: transactions.length
-    })
+      total: transactions.length,
+    });
   }
 
   async findOne(userId: string, id: string) {
@@ -69,7 +77,7 @@ export class TransactionsService {
   async create(userId: string, dto: CreateTransactionDto) {
     await this.ensureCategoryBelongsToUser(userId, dto.categoryId);
 
-    const type = dto.type ??ExpenseType.variable;
+    const type = dto.type ?? ExpenseType.variable;
     const status = dto.status ?? ExpenseStatus.pending;
 
     if (type === ExpenseType.installment) {
@@ -84,10 +92,10 @@ export class TransactionsService {
         date: new Date(dto.date),
         categoryId: dto.categoryId,
         type,
-        status
+        status,
       },
-      select: transactionSelect
-    })
+      select: transactionSelect,
+    });
 
     return ApiResponse.created(transaction, 'Transaction created');
   }
@@ -119,7 +127,7 @@ export class TransactionsService {
     const transaction = await this.prisma.transaction.update({
       where: { id },
       data: { status: ExpenseStatus.paid },
-      select: transactionSelect, 
+      select: transactionSelect,
     });
 
     return ApiResponse.ok(transaction, 'Transaction paid');
@@ -129,13 +137,13 @@ export class TransactionsService {
     await this.ensureTransactionExists(userId, id);
 
     await this.prisma.transaction.delete({
-      where: { id }
+      where: { id },
     });
 
     return ApiResponse.noContent('Transaction deleted');
   }
 
-   private async createInstallments(userId: string, dto: CreateTransactionDto) {
+  private async createInstallments(userId: string, dto: CreateTransactionDto) {
     if (!dto.totalInstallments) {
       throw new BadRequestException(
         'totalInstallments is required for installment transactions',
@@ -174,7 +182,10 @@ export class TransactionsService {
       ),
     );
 
-    return ApiResponse.created(transactions, 'Installment transactions created');
+    return ApiResponse.created(
+      transactions,
+      'Installment transactions created',
+    );
   }
 
   private async ensureTransactionExists(userId: string, id: string) {
@@ -190,7 +201,10 @@ export class TransactionsService {
     return transaction;
   }
 
-  private async ensureCategoryBelongsToUser(userId: string, categoryId?: string) {
+  private async ensureCategoryBelongsToUser(
+    userId: string,
+    categoryId?: string,
+  ) {
     if (!categoryId) return;
 
     const category = await this.prisma.category.findFirst({
@@ -216,7 +230,7 @@ export class TransactionsService {
 
       return {
         gte: start,
-        lt: end
+        lt: end,
       };
     }
 

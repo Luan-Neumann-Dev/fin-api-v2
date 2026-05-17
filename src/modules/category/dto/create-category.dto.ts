@@ -1,4 +1,10 @@
-import { IsHexColor, IsNotEmpty, IsOptional, IsString, MaxLength } from "class-validator";
+import {
+  IsHexColor,
+  IsNotEmpty,
+  IsOptional,
+  IsString,
+  MaxLength,
+} from 'class-validator';
 
 export class CreateCategoryDto {
   @IsString()

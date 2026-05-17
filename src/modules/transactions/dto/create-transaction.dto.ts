@@ -1,6 +1,18 @@
-import { IsDateString, IsEnum, IsInt, IsNotEmpty, IsNumber, IsOptional, IsPositive, IsString, IsUUID, Max, Min } from "class-validator";
-import { Type } from 'class-transformer'
-import { ExpenseStatus, ExpenseType } from "src/generated/prisma/enums";
+import {
+  IsDateString,
+  IsEnum,
+  IsInt,
+  IsNotEmpty,
+  IsNumber,
+  IsOptional,
+  IsPositive,
+  IsString,
+  IsUUID,
+  Max,
+  Min,
+} from 'class-validator';
+import { Type } from 'class-transformer';
+import { ExpenseStatus, ExpenseType } from 'src/generated/prisma/enums';
 
 export class CreateTransactionDto {
   @IsString()

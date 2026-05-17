@@ -1,4 +1,3 @@
-// src/modules/transactions/transactions.controller.ts
 import {
   Body,
   Controller,
@@ -29,10 +28,7 @@ export class TransactionsController {
   }
 
   @Get(':id')
-  findOne(
-    @CurrentUser() user: CurrentUserPayload,
-    @Param('id') id: string,
-  ) {
+  findOne(@CurrentUser() user: CurrentUserPayload, @Param('id') id: string) {
     return this.transactionsService.findOne(user.id, id);
   }
 
@@ -54,18 +50,12 @@ export class TransactionsController {
   }
 
   @Patch(':id/pay')
-  pay(
-    @CurrentUser() user: CurrentUserPayload,
-    @Param('id') id: string,
-  ) {
+  pay(@CurrentUser() user: CurrentUserPayload, @Param('id') id: string) {
     return this.transactionsService.pay(user.id, id);
   }
 
   @Delete(':id')
-  remove(
-    @CurrentUser() user: CurrentUserPayload,
-    @Param('id') id: string,
-  ) {
+  remove(@CurrentUser() user: CurrentUserPayload, @Param('id') id: string) {
     return this.transactionsService.remove(user.id, id);
   }
 }

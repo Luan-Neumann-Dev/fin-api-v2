@@ -1,10 +1,14 @@
-import { ConflictException, Injectable, NotFoundException } from "@nestjs/common";
-import { ApiResponse } from "src/common/response/api-response";
-import { PrismaService } from "src/prisma/prisma.service";
-import { UpdateUserDto } from "./dto/update-user.dto";
+import {
+  ConflictException,
+  Injectable,
+  NotFoundException,
+} from '@nestjs/common';
+import { ApiResponse } from 'src/common/response/api-response';
+import { PrismaService } from 'src/prisma/prisma.service';
+import { UpdateUserDto } from './dto/update-user.dto';
 
 const userSelect = {
-  id: true, 
+  id: true,
   email: true,
   displayName: true,
   createdAt: true,
