@@ -4,7 +4,10 @@ import type { CurrentUserPayload } from 'src/common/types/current-user.type';
 import { MonthsQueryDto } from './dto/months-query.dto';
 import { ReportPeriodDto } from './dto/report-period.dto';
 import { ReportsService } from './reports.service';
+import { ApiBearerAuth, ApiTags } from '@nestjs/swagger';
 
+@ApiTags('Reports')
+@ApiBearerAuth()
 @Controller('reports')
 export class ReportsController {
   constructor(private readonly reportsService: ReportsService) {}

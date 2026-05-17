@@ -13,7 +13,10 @@ import { CreatePiggyBankDto } from './dto/create-piggy-bank.dto';
 import { MovePiggyBankAmountDto } from './dto/move-piggy-bank-amount.dto';
 import { UpdatePiggyBankDto } from './dto/update-piggy-bank.dto';
 import { PiggyBanksService } from './piggy-banks.service';
+import { ApiBearerAuth, ApiTags } from '@nestjs/swagger';
 
+@ApiTags('Piggy Banks')
+@ApiBearerAuth()
 @Controller('piggy-banks')
 export class PiggyBanksController {
   constructor(private readonly piggyBanksService: PiggyBanksService) {}

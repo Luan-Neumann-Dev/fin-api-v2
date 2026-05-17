@@ -16,7 +16,10 @@ import { FilterInvoiceDto } from './dto/filter-invoice.dto';
 import { UpdateInvoicePurchaseDto } from './dto/update-invoice-purchase.dto';
 import { UpdateInvoiceDto } from './dto/update-invoice.dto';
 import { InvoicesService } from './invoices.service';
+import { ApiBearerAuth, ApiTags } from '@nestjs/swagger';
 
+@ApiTags('Invoices')
+@ApiBearerAuth()
 @Controller('invoices')
 export class InvoicesController {
   constructor(private readonly invoicesService: InvoicesService) {}

@@ -14,7 +14,10 @@ import { CreateIncomeDto } from './dto/create-income.dto';
 import { FilterIncomeDto } from './dto/filter-income.dto';
 import { UpdateIncomeDto } from './dto/update-income.dto';
 import { IncomesService } from './incomes.service';
+import { ApiBearerAuth, ApiTags } from '@nestjs/swagger';
 
+@ApiTags('Incomes')
+@ApiBearerAuth()
 @Controller('incomes')
 export class IncomesController {
   constructor(private readonly incomesService: IncomesService) {}

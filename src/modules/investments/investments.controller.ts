@@ -14,7 +14,10 @@ import { CreateInvestmentDto } from './dto/create-investment.dto';
 import { FilterInvestmentDto } from './dto/filter-investment.dto';
 import { UpdateInvestmentDto } from './dto/update-investment.dto';
 import { InvestmentsService } from './investments.service';
+import { ApiBearerAuth, ApiTags } from '@nestjs/swagger';
 
+@ApiTags('Investments')
+@ApiBearerAuth()
 @Controller('investments')
 export class InvestmentsController {
   constructor(private readonly investmentsService: InvestmentsService) {}

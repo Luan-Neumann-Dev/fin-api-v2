@@ -12,7 +12,10 @@ import type { CurrentUserPayload } from 'src/common/types/current-user.type';
 import { CreditCardsService } from './credit-cards.service';
 import { CreateCreditCardDto } from './dto/create-credit-card.dto';
 import { UpdateCreditCardDto } from './dto/update-credit-card.dto';
+import { ApiBearerAuth, ApiTags } from '@nestjs/swagger';
 
+@ApiTags('Credit Cards')
+@ApiBearerAuth()
 @Controller('credit-cards')
 export class CreditCardsController {
   constructor(private readonly creditCardsService: CreditCardsService) {}

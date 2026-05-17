@@ -3,7 +3,9 @@ import { AuthService } from './auth.service';
 import { Public } from 'src/common/decorators/public.decorator';
 import { RegisterDto } from './dto/register.dto';
 import { LoginDto } from './dto/login.dto';
+import { ApiBearerAuth, ApiTags } from '@nestjs/swagger';
 
+@ApiTags('Auth')
 @Controller('auth')
 export class AuthController {
   constructor(private readonly authService: AuthService) {}
@@ -21,6 +23,7 @@ export class AuthController {
   }
 
   @Post('logout')
+  @ApiBearerAuth()
   logout() {
     return this.authService.logout();
   }

@@ -3,7 +3,10 @@ import { CurrentUser } from 'src/common/decorators/current-user.decorator';
 import type { CurrentUserPayload } from 'src/common/types/current-user.type';
 import { UpdateProfileDto } from './dto/update-profile.dto';
 import { ProfileService } from './profile.service';
+import { ApiBearerAuth, ApiTags } from '@nestjs/swagger';
 
+@ApiTags('Profile')
+@ApiBearerAuth()
 @Controller('profile')
 export class ProfileController {
   constructor(private readonly profileService: ProfileService) {}
